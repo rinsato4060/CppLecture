@@ -1,42 +1,42 @@
 #include <iostream>
 #include <array>
 
-int Partition(std::array<int, 9> &arr, int low, int high)
+constexpr int ArraySize = 5;
+void Swap(int& a, int& b)
 {
-    int pivot = arr[high];
-    int i = low - 1;
-    for (int j = low; j < high; j++)
-    {
-        if (arr[j] < pivot)
-        {
-            i++;
-            int temp = arr[i];
-            arr[i] = arr[j];
-            arr[j] = temp;
-        }
-    }
-    int temp = arr[i + 1];
-    arr[i + 1] = arr[high];
-    arr[high] = temp;
-    return i + 1;
+    int temp = a;
+    a = b;
+    b = temp;
 }
 
-void QuickSort(std::array<int, 9> &arr, int low, int high){
-    if (low < high)
+void BubbleSort(std::array<int, ArraySize>& arr)
+{
+    for (int i = 0; i < ArraySize - 1; ++i)
     {
-        int pi = Partition(arr, low, high);
-        QuickSort(arr, low, pi - 1);
-        QuickSort(arr, pi + 1, high);
+        bool is_swapped = false;
+        for (int j = 0; j < ArraySize - i - 1; ++j)
+        {
+            if (arr[j] > arr[j + 1])
+            {
+                Swap(arr[j], arr[j + 1]);
+                is_swapped = true;
+            }
+        }
+        if (!is_swapped)
+        {
+            break; 
+        }
     }
 }
+
 int main()
 {
-    std::array<int, 9> arr = {3, 4, 13, 6, 3, 2, 9, 5, 7};
-    int n = arr.size();
-    QuickSort(arr, 0, n - 1);
-    for (int i = 0; i < n; i++)
+    std::array<int, ArraySize> arr = {5, 2, 9, 1, 5};
+    BubbleSort(arr);
+    std::cout << "Sorted array: ";
+    for (const auto& num : arr)
     {
-        std::cout << arr[i] << " ";
+        std::cout << num << " ";
     }
     std::cout << std::endl;
     return 0;
